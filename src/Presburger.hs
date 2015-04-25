@@ -1,4 +1,8 @@
-module Presburger(isPresburgerExpr) where
+module Presburger(isPresburgerExpr,
+                  toPresburgerExpr,
+                  presburgerExpr) where
+
+import Data.Map as M
 
 import Expr
 
@@ -9,6 +13,8 @@ isPresburgerExpr e =
     False -> case kind e of
       PLUS -> isPresburgerExpr (left e) && isPresburgerExpr (right e)
       MINUS -> isPresburgerExpr (left e) && isPresburgerExpr (right e)
+      TIMES -> (isIntConst (left e) && isPresburgerExpr (right e))
+            || (isPresburgerExpr (left e) && isIntConst (right e))
       _ -> False
 
 isPresburgerMonomial :: Expr -> Bool
@@ -20,3 +26,13 @@ isPresburgerMonomial e =
           || ((kind (left e) == SYMBOL) && (isIntConst (right e)))
           || ((isIntConst (left e)) && (isIntConst (right e)))
     _ -> False
+
+data PresburgerExpr
+  = PresburgerExpr (Map String Integer) Integer
+    deriving (Eq, Ord, Show)
+
+presburgerExpr :: [(String, Integer)] -> Integer -> PresburgerExpr
+presburgerExpr coeffMap constVal = PresburgerExpr (M.fromList coeffMap) constVal
+
+toPresburgerExpr :: Expr -> PresburgerExpr
+toPresburgerExpr e = presburgerExpr [] 12

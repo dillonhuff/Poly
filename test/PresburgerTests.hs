@@ -4,8 +4,9 @@ import Expr
 import Presburger
 import TestUtils
 
-allPresburgerTests =
+allPresburgerTests = do
   testFunction isPresburgerExpr presburgerCases
+  testFunction toPresburgerExpr presburgerExprCases
 
 presburgerCases =
   [(integer 4, True),
@@ -20,4 +21,8 @@ presburgerCases =
    (minus (sym "b") (sym "a"), True),
    (plus (minus (sym "a") (sym "b")) (plus (times (integer 2) (sym "a")) (sym "d")), True),
    (plus (minus (sym "a") (sym "b")) (plus (times (sym "a") (sym "a")) (sym "d")), False),
-   (times (integer 43) (plus (integer 3) (symbol "a")), True)]
+   (times (integer 43) (plus (integer 3) (sym "a")), True)]
+
+presburgerExprCases =
+  [(integer 12, presburgerExpr [] 12),
+   (integer 15, presburgerExpr [] 15)]
