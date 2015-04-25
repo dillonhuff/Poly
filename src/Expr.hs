@@ -16,7 +16,13 @@ data Expr
   | Symbol String
   | Binop String Expr Expr
   | Fraction Integer Integer
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Ord)
+
+instance Show Expr where
+  show (Integer i) = show i
+  show (Symbol s) = s
+  show (Binop name l r) = "(" ++ show l ++ " " ++ name ++ " " ++ show r ++ ")"
+  show (Fraction l r) = "(" ++ show l ++ " / " ++ show r ++ ")"
 
 integer i = Integer i
 sym name = Symbol name
