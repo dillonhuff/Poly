@@ -19,4 +19,5 @@ presburgerCases =
    (minus (sym "a") (integer 53), True),
    (minus (sym "b") (sym "a"), True),
    (plus (minus (sym "a") (sym "b")) (plus (times (integer 2) (sym "a")) (sym "d")), True),
-   (plus (minus (sym "a") (sym "b")) (plus (times (sym "a") (sym "a")) (sym "d")), False)]
+   (plus (minus (sym "a") (sym "b")) (plus (times (sym "a") (sym "a")) (sym "d")), False),
+   (times (integer 43) (plus (integer 3) (symbol "a")), True)]
