@@ -1,11 +1,14 @@
 module ExprTests(allExprTests) where
 
+import Test.QuickCheck
+
 import Expr
 import TestUtils
 
 allExprTests = do
   testFunction kind kindCases
   testFunction isIntConst intConstCases
+  invariantTests
 
 kindCases =
   [(integer 12, INTEGER),
@@ -19,3 +22,9 @@ kindCases =
 intConstCases =
   [(integer 45, True),
    (plus (integer 3) (integer 6), True)]
+
+invariantTests = do
+  quickCheck noMinusesAfterNormalizingMinuses
+
+noMinusesAfterNormalizingMinuses e =
+  hasNoSubExprsOfKind MINUS $ normalizeMinuses e
